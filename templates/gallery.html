@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="gallery-grid">
+    {% for photo in photos %}
+      <div>
+        <div class="glass-card">
+          <!-- Lightbox no clique da imagem apenas -->
+          <a href="{{ photo.url }}" data-lightbox="wedding">
+            <img src="{{ photo.url }}" alt="Foto de casamento">
+          </a>
+          <!-- Ações de download e edição fora do link do lightbox -->
+          <div class="card-actions">
+            <a href="{{ url_for('download', filename=photo.filename) }}" download>Baixar</a>
+            <a href="{{ url_for('edit', filename=photo.filename) }}">Editar</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% if photos|length == 0 %}
+    <p class="text-center text-muted mt-5">
+      Nenhuma foto encontrada.<br>Coloque suas imagens em <code>static/photos/</code>.
+    </p>
+  {% endif %}
+{% endblock %}
