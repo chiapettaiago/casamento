@@ -4,85 +4,94 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Álbum de Casamento</title>
-
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Lightbox2 CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
-
   <style>
     body { background: #f0f0f8; }
-
-    /* Grid responsivo de quadradinhos com tamanho maior */
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 1rem;
       justify-items: center;
     }
-    /* Glassmorphism card com borda translúcida em volta */
     .glass-card {
       background: rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
       border: 2px solid rgba(255, 255, 255, 0.4);
       border-radius: 1rem;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-      width: 150px;
-      height: 150px;
+      width: 100%;
+      max-width: 180px;
+      aspect-ratio: 1 / 1;
       overflow: hidden;
       transition: transform .2s, box-shadow .2s;
-      cursor: pointer;
+      position: relative;
     }
     .glass-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     }
     .glass-card img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .card-actions {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .card-actions a {
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      text-decoration: none;
+    }
+    @media (max-width: 576px) {
+      .glass-card {
+        max-width: 100%;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+      }
     }
   </style>
 </head>
 <body>
-
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
     <div class="container">
       <a class="navbar-brand fw-bold" href="#">Nosso Casamento</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Início</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#gallery">Galeria</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#sobre">Sobre</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#contato">Contato</a>
-          </li>
+          <li class="nav-item"><a class="nav-link active" href="#">Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="#gallery">Galeria</a></li>
+          <li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
         </ul>
       </div>
     </div>
   </nav>
-
   <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="alert alert-{{ category }} mt-2">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
     {% block content %}{% endblock %}
   </main>
-
+  <footer class="text-center py-4 text-muted mt-4">
+    <small>&copy; 2025 - Criado com ❤️ por </small>
+  </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
-  <script>
-    lightbox.option({
-      'resizeDuration': 200,
-      'wrapAround': true,
-      'showImageNumberLabel': false
-    });
-  </script>
+  <script>lightbox.option({'resizeDuration':200,'wrapAround':true,'showImageNumberLabel':false});</script>
 </body>
 </html>
