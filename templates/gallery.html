@@ -1,13 +1,16 @@
 {% extends "base.html" %}
-
 {% block content %}
   <h1 id="gallery" class="mb-4 text-center">Álbum de Casamento</h1>
   <div class="gallery-grid">
     {% for photo in photos %}
       <div class="glass-card">
-        <!-- data-photo identifica para o modal -->
         <a href="{{ photo.url }}" data-photo>
-          <img src="{{ photo.url }}" alt="Foto de casamento">
+          <img 
+            src="{{ photo.thumb_url }}" 
+            alt="Foto de casamento" 
+            loading="lazy"
+            class="w-100 h-100"
+          >
         </a>
         <div class="card-actions">
           <a href="{{ url_for('download', filename=photo.filename) }}" download>Baixar</a>
