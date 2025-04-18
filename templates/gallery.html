@@ -12,10 +12,6 @@
             class="w-100 h-100"
           >
         </a>
-        <div class="card-actions">
-          <a href="{{ url_for('download', filename=photo.filename) }}" download>Baixar</a>
-          <a href="{{ url_for('edit', filename=photo.filename) }}">Editar</a>
-        </div>
       </div>
     {% endfor %}
   </div>
