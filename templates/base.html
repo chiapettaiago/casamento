@@ -98,6 +98,7 @@
                style="max-height:80vh; object-fit:contain; border-radius:8px; box-shadow:0 0 12px rgba(0,0,0,0.3);">
           <div class="mt-3 d-flex gap-2">
             <a id="modalDownloadBtn" href="#" download class="btn btn-light shadow">⬇️ Baixar</a>
+            <button id="modalShareBtn" class="btn btn-primary shadow">🔗 Compartilhar</button>
             <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Fechar</button>
           </div>
         </div>
@@ -131,6 +132,21 @@
           modal.show();
         });
       });
+
+      const shareBtn = document.getElementById('modalShareBtn');
+      shareBtn.onclick = () => {
+        const url = photoLinks[currentIndex];
+        if (navigator.share) {
+          navigator.share({
+            title: 'Álbum de Casamento',
+            url: url
+          }).catch(console.error);
+        } else {
+          navigator.clipboard.writeText(url)
+            .then(() => alert('Link copiado para área de transferência!'))
+            .catch(() => alert('Não foi possível copiar o link.'));
+        }
+      };
 
       // Navegação por teclado
       document.addEventListener('keydown', e => {
