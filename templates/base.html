@@ -54,6 +54,12 @@
       font-size: .75rem;
       text-decoration: none;
     }
+
+    #backToTopBtn:hover {
+      box-shadow: 0 0 12px rgba(0,0,0,0.4);
+      background-color: #0d6efd;
+    }
+
   </style>
 </head>
 <body>
@@ -81,6 +87,13 @@
     {% endwith %}
     {% block content %}{% endblock %}
   </main>
+
+  <!-- Botão flutuante de voltar ao topo -->
+  <button id="backToTopBtn" class="btn btn-primary shadow rounded-circle"
+  style="position:fixed; bottom:20px; right:20px; display:none; z-index:9999; width:48px; height:48px;">
+  ⬆
+  </button>
+
 
   <footer class="text-center py-4 text-muted mt-4">
     <small>&copy; 2025 - Criado por Iago Chiapetta e Maria Eduarda Chiapetta com muito amor</small>
@@ -222,6 +235,19 @@ document.getElementById('playSlideshowBtn').onclick = () => {
 document.getElementById('slideshowModal').addEventListener('hidden.bs.modal', () => {
   clearInterval(slideshowInterval);
 });
+
+// Mostrar botão ao rolar a página
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('backToTopBtn');
+  btn.style.display = (window.scrollY > 200) ? 'block' : 'none';
+});
+
+// Voltar ao topo suavemente
+document.getElementById('backToTopBtn').addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+
 
   </script>
 </body>
