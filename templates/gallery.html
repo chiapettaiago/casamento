@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
   <h3 id="gallery" class="mb-4 text-center">Moysés e Maria da Conceição</h3>
+  
+  <div class="text-center mb-4">
+    <button id="shareAlbumBtn" class="btn btn-outline-primary me-2">🔗 Compartilhar Álbum</button>
+    <button id="playSlideshowBtn" class="btn btn-success">▶️ Reproduzir Tudo</button>
+  </div>
   <div class="gallery-grid">
     {% for photo in photos %}
       <div class="glass-card">
