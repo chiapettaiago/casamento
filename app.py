@@ -1,4 +1,5 @@
 import os
+from itsdangerous import URLSafeSerializer
 from flask import (
     Flask, render_template, url_for, send_from_directory,
     request, redirect, flash
@@ -8,6 +9,9 @@ from PIL import Image
 
 app = Flask(__name__)
 app.secret_key = 'substitua_por_uma_chave_secreta_forte'
+
+serializer = URLSafeSerializer(app.secret_key)
+
 
 # Diretórios
 PHOTO_DIR = os.path.join(app.static_folder, 'photos')
@@ -56,6 +60,24 @@ def gallery():
 def download(filename):
     # força cache (30 dias)
     return send_from_directory(PHOTO_DIR, filename, as_attachment=True, cache_timeout=2592000)
+
+@app.route('/view/<token>')
+def view_photo(token):
+    try:
+        filename = serializer.loads(token)
+        photo_path = os.path.join(PHOTO_DIR, filename)
+        if not os.path.exists(photo_path):
+            raise FileNotFoundError
+        return render_template('view.html', filename=filename)
+    except Exception:
+        flash('Link inválido ou imagem não encontrada.', 'danger')
+        return redirect(url_for('gallery'))
+    
+@app.route('/generate-token/<filename>')
+def generate_token(filename):
+    token = serializer.dumps(filename)
+    link = url_for('view_photo', token=token, _external=True)
+    return link
 
 @app.route('/edit/<filename>', methods=['GET','POST'])
 def edit(filename):

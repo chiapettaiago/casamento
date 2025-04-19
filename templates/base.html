@@ -136,18 +136,20 @@
 
       const shareBtn = document.getElementById('modalShareBtn');
       shareBtn.onclick = () => {
-        const url = photoLinks[currentIndex];
-        if (navigator.share) {
-          navigator.share({
-            title: 'Álbum de Casamento',
-            url: url
-          }).catch(console.error);
-        } else {
-          navigator.clipboard.writeText(url)
-            .then(() => alert('Link copiado para área de transferência!'))
-            .catch(() => alert('Não foi possível copiar o link.'));
-        }
-      };
+  const filename = photoLinks[currentIndex].split('/').pop();
+  fetch(`/generate-token/${filename}`)
+    .then(res => res.text())
+    .then(link => {
+      if (navigator.share) {
+        navigator.share({ title: 'Veja essa foto!', url: link }).catch(console.error);
+      } else {
+        navigator.clipboard.writeText(link)
+          .then(() => alert('Link copiado!'))
+          .catch(() => alert('Não foi possível copiar o link.'));
+      }
+    });
+};
+
 
       // Navegação por teclado
       document.addEventListener('keydown', e => {
